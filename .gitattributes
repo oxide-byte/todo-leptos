@@ -1,0 +1,5 @@
+docs/** linguist-vendored
+tailwind.css linguist-vendored
+tailwind.config.js linguist-vendored
+run.sh linguist-vendored
+build.sh linguist-vendored

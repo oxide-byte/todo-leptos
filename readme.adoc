@@ -1,0 +1,31 @@
+# TODO - LAPTOS
+
+## Introduction
+
+This is a simple Todo app, as POC for an Leptos (WASM) application. It contains some basic elements, including a popup window.
+
+As bonus, I used Tailwind to prettify the application. Trunk includes the Tailwind engine, so no need to install the JS or Standalone version.
+
+## Tools
+
+- https://www.rust-lang.org/ (nightly build)
+
+- https://trunkrs.dev/
+
+## Commands
+
+Start the service with live reload for development:
+
+```
+trunk serve --open --port=8080
+```
+
+Build a release candidate (artifacts in /dist)
+
+```
+trunk build --release
+```
+
+## Running application
+
+The application is deployed on https://oxide-byte.github.io/todo-laptos/[GitHub Pages].
