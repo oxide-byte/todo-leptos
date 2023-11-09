@@ -1,38 +1,47 @@
 use leptos::*;
-use crate::components::{ShowAddTodoModalSignal, TodoListSignal};
+use crate::components::{EditTodoSignal, ShowTodoModalSignal, TodoListSignal};
 use crate::models::Todo;
-use crate::components::add_todo_modal::AddTodoModal;
+use crate::components::todo_modal::TodoModal;
+use crate::components::todo_list_item::TodoListItem;
 
 #[component]
 pub fn App() -> impl IntoView {
-    let todos:TodoListSignal = create_rw_signal(Vec::new());
-    let show_add_modal: ShowAddTodoModalSignal = create_rw_signal(false);
 
-    let on_add_task_event = move |todo: Todo| {
+    let todos:TodoListSignal = create_rw_signal(Vec::new());
+    let show_modal: ShowTodoModalSignal = create_rw_signal(false);
+    let edit_todo_item: EditTodoSignal = create_rw_signal(None);
+
+    let on_add_todo_event = move |todo: Todo| {
         todos.set({
             let mut old = todos.get();
+            old.retain(|x| x.id != todo.id);
             old.push(todo);
+            old.sort_by(|a, b| a.created.cmp(&b.created));
             old
         });
-
-        show_add_modal.set(false);
-
+        show_modal.set(false);
     };
 
     let on_cancel_add_event = move |_| {
-        show_add_modal.set(false);
+        show_modal.set(false);
     };
 
-    let add_todo = move |_| {
-        show_add_modal.set(true);
+    let on_show_modal_add_event = move |_| {
+        edit_todo_item.set(None);
+        show_modal.set(true);
     };
 
-    let delete_todo = move |id : String| {
+    let on_delete_todo_event = move |todo : Todo| {
         todos.set({
             let mut old = todos.get();
-            old.retain(|x| x.id != id);
+            old.retain(|x| x.id != todo.id);
             old
         })
+    };
+
+    let on_edit_todo_event = move |todo : Todo| {
+        edit_todo_item.set(Some(todo));
+        show_modal.set(true);
     };
 
     view! {
@@ -41,7 +50,8 @@ pub fn App() -> impl IntoView {
 
         <div class="pb-5">
             Create a Todo:
-            <button on:click=add_todo class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mx-2">
+            <button on:click=on_show_modal_add_event
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mx-2">
                 <i class="fa-solid fa-plus"></i>
             </button>
         </div>
@@ -56,35 +66,17 @@ pub fn App() -> impl IntoView {
                 key=|item| (item.id.clone(), item.description.clone())
                 let:child
             >
-
-            <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-row">
-
-                <div class="basis-11/12">
-                    <p class="text-lg text-gray-900">
-                        {child.title}
-                    </p>
-
-                    <textarea class="text-left text-gray-500 w-full" rows=3>
-                        {child.description}
-                    </textarea>
-                </div>
-
-                <div class="basis-1/12 flex items-center justify-center">
-                <button on:click=move |_| delete_todo(child.id.clone())
-                    class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2">
-                    <i class="fa-solid fa-minus"></i>
-                </button>
-                </div>
-            </div>
+            <TodoListItem todo=child on_edit=on_edit_todo_event on_delete=on_delete_todo_event/>
             </For>
         </Show>
         </div>
 
-        <Show when = move || { show_add_modal.get() }>
-            <AddTodoModal
-                on_add=on_add_task_event
-                on_cancel=on_cancel_add_event>
-            </AddTodoModal>
+        <Show when = move || show_modal.get()>
+            <TodoModal
+                on_add=on_add_todo_event
+                on_cancel=on_cancel_add_event
+                todo=edit_todo_item.get()>
+            </TodoModal>
         </Show>
     }
 }

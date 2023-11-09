@@ -1,5 +1,5 @@
 [package]
-name = "todo-laptos"
+name = "todo-leptos"
 version = "0.1.0"
 edition = "2021"
 license = "MIT"
@@ -7,3 +7,4 @@ license = "MIT"
 [dependencies]
 leptos = { version = "0.5.2", features = ["csr", "nightly"] }
 uuid = { version = "1.5.0", features = ["v4"] }
+instant = { version = "0.1", features = [ "wasm-bindgen", "inaccurate" ] }
