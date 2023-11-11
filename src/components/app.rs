@@ -12,12 +12,10 @@ pub fn App() -> impl IntoView {
     let edit_todo_item: EditTodoSignal = create_rw_signal(None);
 
     let on_add_todo_event = move |todo: Todo| {
-        todos.set({
-            let mut old = todos.get();
+        todos.update(|old|  {
             old.retain(|x| x.id != todo.id);
             old.push(todo);
             old.sort_by(|a, b| a.created.cmp(&b.created));
-            old
         });
         show_modal.set(false);
     };
@@ -32,10 +30,8 @@ pub fn App() -> impl IntoView {
     };
 
     let on_delete_todo_event = move |todo : Todo| {
-        todos.set({
-            let mut old = todos.get();
+        todos.update(|old| {
             old.retain(|x| x.id != todo.id);
-            old
         })
     };
 
