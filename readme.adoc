@@ -33,3 +33,15 @@ trunk build --release
 == Running application
 
 The application is deployed on https://oxide-byte.github.io/todo-leptos/[GitHub Pages].
+
+== Next steps
+
+How to continue, perhaps have a look on one of these:
+
+* Router
+
+* Serverside rendering
+
+* Leptos, Islands
+
+* ...

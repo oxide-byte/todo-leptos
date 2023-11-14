@@ -1,0 +1,63 @@
+[source,rust]
+----
+use leptos::*;
+use leptos::html::Input;
+use uuid::Uuid;
+
+#[derive(Clone, Debug)]
+pub struct Todo {
+    pub id: String,
+    pub title: String,
+    pub description: String,
+    pub created: instant::Instant
+}
+
+#[component]
+pub fn TodoListItem(todo:Todo, #[prop(into)] on_delete: Callback<Todo>) -> impl IntoView {
+    let todo_item: RwSignal<Todo> = create_rw_signal(todo);
+    view! {
+        <p>
+            {todo_item.get().title}
+            <button on:click=move |_| {on_delete(todo_item.get())}> Delete </button>
+        </p>
+    }
+}
+
+fn main() {
+    let todos:RwSignal<Vec<Todo>> = create_rw_signal(Vec::new());
+    let todo_title:RwSignal<String> = create_rw_signal(String::new());
+
+    let input_title: NodeRef<Input> = create_node_ref();
+
+    let add_todo = move | | {
+        let description = String::from("Description");
+        let id = Uuid::new_v4().to_string();
+        let created = instant::Instant::now();
+        let title = input_title().expect("<input> to exist").value();
+        todos.update(|old| {
+            old.push(Todo { title,description,id,created })
+        });
+    };
+
+    let on_delete_todo_event = move |todo : Todo| {
+        todos.update(|old| {
+            old.retain(|x| x.id != todo.id);
+        })
+    };
+
+    mount_to_body(move || view! {
+
+    <h1>Todo List</h1>
+        <p>
+            <input node_ref=input_title id="title" type="text"
+            value = {todo_title.get()}
+            placeholder = "Title"/>
+
+            <button on:click=move |_| {add_todo()}>Add Todo </button>
+        </p>
+        <For each=todos key=|item| (item.id.clone(), item.description.clone()) let:child>
+            <TodoListItem todo=child on_delete=on_delete_todo_event/>
+        </For>
+    })
+}
+----
