@@ -2,11 +2,11 @@
 
 == Introduction
 
-This is a simple Todo app, as POC for an Leptos (WASM) application.
+This is a simple Todo app, as POC for an Leptos (WASM) application-
 
 The application contains the basic CRUD elements including the create/update handled by a modal window. The application uses the Signal features currently from the nightly build version for an better development experience.
 
-As bonus, the POC uses Tailwind to prettify the application. Trunk includes the Tailwind engine, so no need to install the JavaScript or Standalone version.
+As bonus, the POC uses Tailwind to prettify the application. Trunk includes the Tailwind engine, so no need to install the JavaScript or Standalone version. Also available a small article from my part in French: https://www.sfeir.dev/front/explorer-linnovation-rust-et-webassembly/[]
 
 == Tools
 
