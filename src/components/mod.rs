@@ -1,4 +1,4 @@
-use leptos::RwSignal;
+use leptos::prelude::RwSignal;
 use crate::models::Todo;
 
 pub mod app;

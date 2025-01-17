@@ -1,4 +1,4 @@
-use leptos::*;
+use leptos::prelude::*;
 use crate::components::{EditTodoSignal, ShowTodoModalSignal, TodoListSignal};
 use crate::models::Todo;
 use crate::components::todo_modal::TodoModal;
@@ -7,9 +7,9 @@ use crate::components::todo_list_item::TodoListItem;
 #[component]
 pub fn App() -> impl IntoView {
 
-    let todos:TodoListSignal = create_rw_signal(Vec::new());
-    let show_modal: ShowTodoModalSignal = create_rw_signal(false);
-    let edit_todo_item: EditTodoSignal = create_rw_signal(None);
+    let todos:TodoListSignal = RwSignal::new(Vec::new());
+    let show_modal: ShowTodoModalSignal = RwSignal::new(false);
+    let edit_todo_item: EditTodoSignal = RwSignal::new(None);
 
     let on_add_todo_event = move |todo: Todo| {
         todos.update(|old|  {
@@ -20,7 +20,7 @@ pub fn App() -> impl IntoView {
         show_modal.set(false);
     };
 
-    let on_cancel_add_event = move |_| {
+    let on_cancel_add_event = move || {
         show_modal.set(false);
     };
 
@@ -58,7 +58,7 @@ pub fn App() -> impl IntoView {
             <h2>Start working</h2>
 
             <For
-                each=todos
+                each=move || todos.get()
                 key=|item| (item.id.clone(), item.description.clone())
                 let:child
             >

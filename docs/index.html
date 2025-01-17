@@ -1,8 +1,18 @@
-<!DOCTYPE html><html lang="en"><head>
-    <link rel="stylesheet" href="/todo-leptos/tailwind-389c5987bb74d1fc.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer">
-<title>TODO-LAPTOS</title>
-    <link rel="preload" href="/todo-leptos/todo-leptos-dc3ebc1f57b31102_bg.wasm" as="fetch" type="application/wasm" crossorigin="">
-    <link rel="modulepreload" href="/todo-leptos-dc3ebc1f57b31102.js"></head>
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="/todo-leptos/tailwind-21aa76b36676cb96.css" integrity="sha384&#x2D;LndODlPVXTb3hF0xu&#x2B;L2pI14ilYmr6GGjcvMGu9mxPOltF&#x2B;q98G6wmcUM8pza8w1"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<head><title>TODO-LAPTOS</title><link rel="modulepreload" href="/todo-leptos/todo-leptos-6652484f9fafa81.js" crossorigin=anonymous integrity="sha384-tKcpR2Rb3O14tsywJHmvCrTxs0mVGtSIr64lv8NAGxXIDNf1Zi/QsGtDGpua8yrr"><link rel="preload" href="/todo-leptos/todo-leptos-6652484f9fafa81_bg.wasm" crossorigin=anonymous integrity="sha384-Ub+AH/Foitaj+x4MuihvwCRJXnicZZL3CbYQ7y/c/7G/E0Y5hIHklMDUhIuEPgiR" as="fetch" type="application/wasm"></head>
 <body>
-<script type="module">import init from '/todo-leptos/todo-leptos-dc3ebc1f57b31102.js';init('/todo-leptos/todo-leptos-dc3ebc1f57b31102_bg.wasm');</script></body></html>
+<script type="module" nonce="HYPBH871h4d5n2RMCX72xQ==">
+import init, * as bindings from '/todo-leptos/todo-leptos-6652484f9fafa81.js';
+const wasm = await init({ module_or_path: '/todo-leptos/todo-leptos-6652484f9fafa81_bg.wasm' });
+
+
+window.wasmBindings = bindings;
+
+
+dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
+
+</script></body>
+</html>

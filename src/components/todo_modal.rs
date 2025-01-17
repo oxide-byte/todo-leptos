@@ -1,22 +1,25 @@
-use leptos::*;
-use leptos::ev::MouseEvent;
+use leptos::prelude::*;
 use leptos::html::{Input, Textarea};
 use uuid::Uuid;
 use crate::components::EditTodoSignal;
 use crate::models::Todo;
 
 #[component]
-pub fn TodoModal(#[prop(into)] on_add: Callback<Todo>, #[prop(into)] on_cancel: Callback<MouseEvent>, todo:Option<Todo>) -> impl IntoView {
+pub fn TodoModal<A,C>(todo: Option<Todo>, on_add: A, on_cancel: C) -> impl IntoView
+where
+    A: Fn(Todo) + 'static,
+    C: Fn() + 'static,
+{
 
-    let todo_item: EditTodoSignal = create_rw_signal(todo);
+    let todo_item: EditTodoSignal = RwSignal::new(todo);
 
-    let input_title: NodeRef<Input> = create_node_ref();
-    let input_description: NodeRef<Textarea> = create_node_ref();
+    let input_title: NodeRef<Input> = NodeRef::new();
+    let input_description: NodeRef<Textarea> = NodeRef::new();
 
     let on_add_event = move |_| {
 
-        let title = input_title().expect("<input> to exist").value();
-        let description = input_description().expect("<textarea> to exist").value();
+        let title = input_title.get().expect("<input> to exist").value();
+        let description = input_description.get().expect("<textarea> to exist").value();
         let id = if todo_item.get().is_some() {todo_item.get().unwrap().id} else {Uuid::new_v4().to_string()};
         let created = if todo_item.get().is_some() {todo_item.get().unwrap().created} else {instant::Instant::now()};
 
@@ -69,7 +72,6 @@ view! {
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     rows="3"
                     id="description"
-                    type="text"
                     placeholder="Description">{
                     move ||
                         if todo_item.get().is_some()
@@ -92,7 +94,7 @@ view! {
                 </button>
                 <button type="cancel"
                     class="bg-gray-300 hover:bg-gray-400 px-5 py-3 text-white rounded-lg"
-                    on:click=on_cancel>
+                    on:click=move |_| on_cancel()>
                     Cancel
                 </button>
             </div>
