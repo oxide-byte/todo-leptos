@@ -1,4 +1,4 @@
-/*! tailwindcss v4.1.7 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v4.1.11 | MIT License | https://tailwindcss.com */
 @layer properties;
 @layer theme, base, components, utilities;
 @layer theme {
@@ -245,9 +245,6 @@
   .inline-flex {
     display: inline-flex;
   }
-  .table {
-    display: table;
-  }
   .w-2\/5 {
     width: calc(2/5 * 100%);
   }
@@ -306,8 +303,11 @@
   .bg-gray-300 {
     background-color: var(--color-gray-300);
   }
-  .bg-gray-900 {
-    background-color: var(--color-gray-900);
+  .bg-gray-500\/75 {
+    background-color: color-mix(in srgb, oklch(55.1% 0.027 264.364) 75%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-gray-500) 75%, transparent);
+    }
   }
   .bg-red-700 {
     background-color: var(--color-red-700);

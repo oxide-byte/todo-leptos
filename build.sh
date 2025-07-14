@@ -1,3 +1,3 @@
 #!/bin/bash
 
-trunk build --release
+trunk build --release --public-url="/todo-leptos/"

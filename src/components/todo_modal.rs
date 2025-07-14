@@ -35,7 +35,7 @@ where
 
 view! {
 
-<div class="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-60">
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-gray-500/75">
 
     <div
       class="block rounded-lg bg-white w-2/5 p-4 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] z-70">
