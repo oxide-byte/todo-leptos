@@ -5,6 +5,6 @@ edition = "2024"
 license = "MIT"
 
 [dependencies]
-leptos = { version = "0.8.5", features = ["csr"] }
-uuid = { version = "1.17.0", features = ["v4", "js"] }
+leptos = { version = "0.8.8", features = ["csr"] }
+uuid = { version = "1.18.0", features = ["v4", "js"] }
 instant = { version = "0.1.13", features = [ "wasm-bindgen", "inaccurate" ] }
