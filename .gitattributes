@@ -1,5 +1,13 @@
-docs/** linguist-vendored
+# Tailwind
 tailwind.css linguist-vendored
 tailwind.config.js linguist-vendored
+# Playwright
+e2e/** linguist-vendored
+playwright.config.ts linguist-vendored
+package.json linguist-vendored
+package-lock.json linguist-vendored
+# Execution
 run.sh linguist-vendored
 build.sh linguist-vendored
+# Documentation
+docs/** linguist-vendored

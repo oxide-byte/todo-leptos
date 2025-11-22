@@ -1,3 +1,5 @@
+#![deny(clippy::unwrap_used)]
+#![forbid(unsafe_code)]
 mod components;
 mod models;
 

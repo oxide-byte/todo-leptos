@@ -1,0 +1,17 @@
+{
+  "name": "todo-leptos-playwright",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Playwright test setup for the TODO Leptos app",
+  "scripts": {
+    "pw:install": "npm i --no-audit --no-fund && npx playwright install --with-deps",
+    "test:e2e": "npm run pw:install && npx playwright test",
+    "test:e2e:headed": "npm run pw:install && npx playwright test --headed",
+    "test:e2e:ui": "npm run pw:install && npx playwright test --ui",
+    "test:e2e:report": "npx playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.2",
+    "typescript": "^5.6.3"
+  }
+}

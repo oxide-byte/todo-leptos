@@ -20,14 +20,23 @@ where
 
         let title = input_title.get().expect("<input> to exist").value();
         let description = input_description.get().expect("<textarea> to exist").value();
-        let id = if todo_item.get().is_some() {todo_item.get().unwrap().id} else {Uuid::new_v4().to_string()};
-        let created = if todo_item.get().is_some() {todo_item.get().unwrap().created} else {instant::Instant::now()};
 
-        let new_item = Todo{
+        // Avoid unwrap by using map_or_else on the current todo value
+        let current = todo_item.get();
+        let id = current
+            .as_ref()
+            .map(|t| t.id.clone())
+            .unwrap_or_else(|| Uuid::new_v4().to_string());
+        let created = current
+            .as_ref()
+            .map(|t| t.created)
+            .unwrap_or_else(instant::Instant::now);
+
+        let new_item = Todo {
             id,
             title,
             description,
-            created
+            created,
         };
 
         on_add(new_item);
@@ -54,12 +63,10 @@ view! {
                     class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     id="title"
                     type="text"
-                    value={move ||
-                                if todo_item.get().is_some()
-                                    {todo_item.get().unwrap().title}
-                                else
-                                    {String::new()}
-                            }
+                    value={move || {
+                        let current = todo_item.get();
+                        current.map(|t| t.title).unwrap_or_default()
+                    }}
                     placeholder="Title"/>
             </div>
 
@@ -73,11 +80,10 @@ view! {
                     rows="3"
                     id="description"
                     placeholder="Description">{
-                    move ||
-                        if todo_item.get().is_some()
-                            {todo_item.get().unwrap().description}
-                        else
-                            {String::new()}
+                    move || {
+                        let current = todo_item.get();
+                        current.map(|t| t.description).unwrap_or_default()
+                    }
                     }</textarea>
             </div>
 

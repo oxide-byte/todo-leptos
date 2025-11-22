@@ -34,6 +34,30 @@ trunk build --release
 
 The application is deployed on https://oxide-byte.github.io/todo-leptos/[GitHub Pages].
 
+== Playwright
+
+=== Prerequisites
+
+Node.js 18+ (recommended LTS) and npm
+
+=== Quick start
+
+0) Install Node dependencies (first time only; optional because test scripts will auto-install)
+- npm install
+
+1) Install browsers and ensure deps are installed
+- npm run pw:install
+
+2) Run tests (headless by default)
+- npm run test:e2e
+
+3) Run headed (see the browser)
+- npm run test:e2e:headed
+
+4) Explore last HTML report
+- npm run test:e2e:report
+
+
 == Next steps
 
 How to continue, perhaps have a look on one of these:
