@@ -1,0 +1,67 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    container_name: sonarqube-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: sonar
+      POSTGRES_PASSWORD: sonar
+      POSTGRES_DB: sonarqube
+
+  sonarqube:
+    image: sonarqube:community
+    container_name: sonarqube
+    depends_on:
+      - db
+    restart: unless-stopped
+    environment:
+      SONARQUBE_JDBC_URL: jdbc:postgresql://db:5432/sonarqube
+      SONARQUBE_JDBC_USERNAME: sonar
+      SONARQUBE_JDBC_PASSWORD: sonar
+      # Increase ES heap if needed
+      SONAR_ES_BOOTSTRAP_CHECKS_DISABLE: "true"
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./data/sonarqube_data:/opt/sonarqube/data
+      - ./data/sonarqube_logs:/opt/sonarqube/logs
+      - ./data/sonarqube_extensions:/opt/sonarqube/extensions
+      # Mount optional custom plugins from project directory if present
+      - ./data/sonarqube-plugins:/opt/sonarqube/extensions/plugins:ro
+
+  # Builds a Clippy SARIF report inside a container and stores it under ./reports
+  clippy-report:
+    build:
+      context: ..
+      dockerfile: docker-build/Dockerfile.clippy
+    container_name: clippy-report
+    working_dir: /project
+    volumes:
+      - ..:/project:rw
+      - clippy_cache_cargo:/usr/local/cargo/registry
+      - clippy_cache_target:/project/target
+    command: ["/bin/sh", "-lc", "sh /project/docker-build/scripts/clippy-report.sh"]
+
+  # Runs SonarScanner and uploads the Clippy report as external issues
+  sonar-scanner:
+    image: sonarsource/sonar-scanner-cli:latest
+    container_name: sonar-scanner
+    depends_on:
+      - sonarqube
+    working_dir: /project
+    environment:
+      # Set SONAR_HOST_URL and SONAR_TOKEN via environment or .env file
+      SONAR_HOST_URL: http://sonarqube:9000
+      SONAR_TOKEN: "squ_f4e2b42610f3af708b72714868877d3b5775faa5"
+    volumes:
+      - ..:/project:ro
+    command: ["bash", "-lc", "sh /project/docker-build/scripts/sonar-scan.sh"]
+
+volumes:
+  sonarqube_data:
+  sonarqube_logs:
+  sonarqube_extensions:
+  clippy_cache_cargo:
+  clippy_cache_target:

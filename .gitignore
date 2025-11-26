@@ -7,3 +7,7 @@
 # ItelliJ
 .idea
 *.iml
+
+# Docker
+/docker-build/data/**/*.*
+/docker-build/reports/**/*.*

@@ -1,0 +1,7 @@
+FROM rust:bookworm
+
+RUN rustup component add clippy
+
+RUN cargo install clippy-sarif
+
+WORKDIR /project
