@@ -30,6 +30,13 @@ Build a release candidate (artifacts in /dist)
 trunk build --release
 ----
 
+or for GitHub
+
+[source,bash]
+----
+trunk build --release --public-url "/todo-leptos"
+----
+
 == Running application
 
 The application is deployed on https://oxide-byte.github.io/todo-leptos/[GitHub Pages].
